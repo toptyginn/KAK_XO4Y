@@ -1,3 +1,4 @@
+# Это сделал Арсений
 import os
 import pygame
 import requests
