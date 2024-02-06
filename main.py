@@ -1,4 +1,4 @@
-# Это сделал Арсений
+# Это сделал Ксюша
 import os
 import pygame
 import requests
