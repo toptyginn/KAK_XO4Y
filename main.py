@@ -42,17 +42,34 @@ def show_map(ll_spn=None, map_type="map", add_params=None):
         print(f'ERROR: {e}')
 
 
+
+spn = 40
 coords = get_address_coords('Австралия').split()
-ll_spn = f'll={coords[0]},{coords[1]}&spn=1,1'
+ll_spn = f'll={coords[0]},{coords[1]}&spn={spn},{spn}'
+show_map(ll_spn, 'map')
+map_file = 'map.png'
 
 
 def main():
+    global spn, ll_spn
     pygame.init()
-    while pygame.event.wait().type != pygame.QUIT:
-        screen = pygame.display.set_mode((600, 450))
-        show_map(ll_spn, 'map')
-        screen.blit(pygame.image.load('map.png'), (0, 0))
+    screen = pygame.display.set_mode((600, 450))
+    running = True
+    while running:
+        screen.blit(pygame.image.load(map_file), (0, 0))
         pygame.display.flip()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.KEYDOWN:
+                os.remove(map_file)
+                if event.key == pygame.K_PAGEUP:
+                    if spn + 20 != 200:
+                        spn += 20
+                if event.key == pygame.K_PAGEDOWN:
+                    if spn - 20 != 0:
+                        spn -= 20
+                show_map(ll_spn, 'map')
     pygame.quit()
 
     os.remove('map.png')
