@@ -5,8 +5,8 @@ import requests
 
 
 def open_map(spn):
-    coords = get_address_coords('Австралия').split()
-    map_request = f"http://static-maps.yandex.ru/1.x/?ll={coords[0]},{coords[1]}&spn={spn},0.002&l=map"
+    coords = get_address_coords(coord).split()
+    map_request = f"http://static-maps.yandex.ru/1.x/?ll={coords[0]},{coords[1]}&spn={spn},0.002&pt={coords[0]},{coords[1]},pm2wtl&l=map"
     response = requests.get(map_request)
     map_file = "map.png"
     with open(map_file, "wb") as file:
@@ -26,9 +26,11 @@ def get_address_coords(address):
     return toponym_coodrinates
 
 
+coord = input('Введите адрес: ')
 spn = 40
-coords = get_address_coords('Австралия').split()
-map_request = f"http://static-maps.yandex.ru/1.x/?ll={coords[0]},{coords[1]}&spn={spn},0.002&l=map"
+coords = get_address_coords(coord).split()
+
+map_request = f"http://static-maps.yandex.ru/1.x/?ll={coords[0]},{coords[1]}&spn={spn},0.002&pt={coords[0]},{coords[1]},pm2wtl&l=map"
 response = requests.get(map_request)
 
 map_file = "map.png"
@@ -47,11 +49,11 @@ while running:
         elif event.type == pygame.KEYDOWN:
             os.remove(map_file)
             if event.key == pygame.K_PAGEUP:
-                if spn + 20 != 200:
-                    spn += 20
+                if spn + 10 != 200:
+                    spn += 10
             if event.key == pygame.K_PAGEDOWN:
-                if spn - 20 != 0:
-                    spn -= 20
+                if spn - 10 != 0:
+                    spn -= 10
             open_map(spn)
 pygame.quit()
 
